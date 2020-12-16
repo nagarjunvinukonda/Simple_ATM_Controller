@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 void account(int option);
 
 
@@ -19,6 +20,7 @@ bool proceed(string action) {
 
 
 
+
 class Bank{
 
     private:
@@ -27,11 +29,7 @@ class Bank{
 		int balance;	// account balance
 		string action;
 
-		int BankAccount[3]{
-			2354,		// PIN number
-			10000,		// checking account balance
-			500000,		// savings account balance
-		};
+		static int BankAccount[3];
 
 
     public:
@@ -56,11 +54,7 @@ class Bank{
 			this->balance = BankAccount[this->type];
 		}
 
-		int Withdraw() {
-			int withdrawAmount;
-
-			cout << "\nPlease enter the amount to withdraw:\n " << endl;
-			cin>>withdrawAmount;
+		int Withdraw(int withdrawAmount) {
 			
 			// Withdraw operation: check Insufficient funds:
 			if(withdrawAmount <= this->balance){
@@ -73,17 +67,14 @@ class Bank{
 				Balance();
 
 			} else {
-				cout << "\nInsufficent funds" << endl;
+				cout << "\nInsufficent account funds" << endl;
 				Balance();
 			}
 
 			return 0;
 		}
 
-		int Deposit() {
-			int depositAmount;
-			cout << "\nPlease enter an amount to deposit:\n" << endl;
-			cin >> depositAmount;
+		int Deposit(int depositAmount) {
 
 			int AccountBalance = this->balance += depositAmount;
 
@@ -120,6 +111,12 @@ class Bank{
 
 };
 
+int Bank::BankAccount[3]{
+	2354,		// PIN number
+	200,		// checking account balance
+	500,		// savings account balance
+};
+
 
 class ATM{
 
@@ -130,7 +127,11 @@ class ATM{
 
     public:
 
-        ATM(){
+		static int ATM_money;
+
+		ATM(){}
+
+		void Main_Menu(){
 
                     cout << "\n#Main Menu:" <<endl;
 	                cout << "\tPlese enter the option number: " << endl;
@@ -162,7 +163,8 @@ class ATM{
 			        proceed(action);
 			
 			        if (proceed(action)) {
-				    // menu();
+
+				    	Main_Menu();
 			        } 
 			        break;
 	        }
@@ -171,6 +173,8 @@ class ATM{
         
 };
 
+int ATM::ATM_money = 1000;
+
 void account(int option) {
 
 		/*Note:
@@ -178,6 +182,7 @@ void account(int option) {
 			account option = 2 (savings)
 		*/	
 			Bank b;
+			ATM a;
 			string action;
 			cout << "\n\n" <<"##"<<b.AccountType[option] << ":"<<"\n\tPlese enter the option number:"<<"\n\t1. Check balance"
 				<<"\n\t2. Withdraw from " << b.AccountType[option] 
@@ -188,6 +193,8 @@ void account(int option) {
 		    Bank Account(option); 
 
 		    int selectMenu;
+			int withdraw;
+			int deposit;
 		    cin >> selectMenu;
 		
 		    switch(selectMenu){
@@ -195,13 +202,27 @@ void account(int option) {
 				    cout << Account.Balance();
 				    break;
 			    case 2: 
-				    cout << Account.Withdraw();
+					cout<<"\nPlease enter the amount to withdraw:\n";
+					cin>>withdraw;
+					if (withdraw<= a.ATM_money){
+						a.ATM_money-=withdraw; 
+
+				    	cout << Account.Withdraw(withdraw);
+					}
+					else{
+						cout<<"ATM has only:"<<"$"<<a.ATM_money<<"\nInsufficient ATM funds!\n"<<"Please start again!\n";
+
+					}
 				    break;
-			    case 3: 
-				    cout << Account.Deposit();
+
+			    case 3:
+					cout<<"\nPlease enter an amount to deposit:\n";
+					cin>>deposit; 
+					a.ATM_money+= deposit;
+				    cout << Account.Deposit(deposit);
 				    break;
 			    case 4:
-				    ATM(); // return to main menu
+					a.Main_Menu(); // return to main menu
 				    break;
 			    default:
 				    cout << "Would you like to continue (y/n)?\n";
@@ -209,7 +230,8 @@ void account(int option) {
 				    proceed(action);
 			
 				    if (proceed(action)) {
-					    ATM(); // return to main menu
+
+						a.Main_Menu(); // return to main menu
 				    } 
 				    break;
 		    }
@@ -217,6 +239,7 @@ void account(int option) {
 
 
 int main(){
+
 
     cout<<"Welcome to ATM!"<<endl;
 
@@ -238,6 +261,7 @@ int main(){
 
             	if(b.verify(pin)){
                 	ATM a;
+					a.Main_Menu();
             	}
             	else{
                 	cout<<"Your PIN is invalid, please try again:"<<"\n"<<endl;
