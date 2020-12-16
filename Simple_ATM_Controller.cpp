@@ -6,12 +6,12 @@ void account(int option);
 
 
 bool proceed(string action) {
-	if(action =="y" || action == "Y"){
+	if(action =="y"){
 		return true;
-	} else if(action == "n" || action == "N"){
-		string exit;
+	} else if(action == "n"){
+		string Exit;
 		cout << "\n Thank you for Banking with us.";
-		cin >> exit;
+		cin >> Exit;
 		return false;
 	}
 
@@ -19,7 +19,7 @@ bool proceed(string action) {
 
 
 
-class bank{
+class Bank{
 
     private:
 
@@ -36,7 +36,7 @@ class bank{
 
     public:
 
-        bank(){ }
+        Bank(){ }
 
 		string AccountType[3]{"", "Checkings", "Savings"};
 
@@ -48,14 +48,14 @@ class bank{
         }
 
 
-    	bank(int type) {
+    	Bank(int type) {
 			// type 1 = Checkings
 			// type 2 = Savings
 			this->type = type;
 			
 			this->balance = BankAccount[this->type];
 		}
-		
+
 		int Withdraw() {
 			int withdrawAmount;
 
@@ -102,7 +102,7 @@ class bank{
 			
 			cout << "\nWould you like to check your "<< AccountType[this->type] << " account balance? (y/n)\n" << endl;
 			cin >> checkBalance;
-			if(checkBalance=="y" || checkBalance=="Y"){
+			if(checkBalance=="y"){
 				cout << "Your account balance is: $" << this->balance << endl;
 			} 
 			
@@ -121,7 +121,7 @@ class bank{
 };
 
 
-class atm{
+class ATM{
 
     private: 
 
@@ -130,7 +130,7 @@ class atm{
 
     public:
 
-        atm(){
+        ATM(){
 
                     cout << "\n#Main Menu:" <<endl;
 	                cout << "\tPlese enter the option number: " << endl;
@@ -177,7 +177,7 @@ void account(int option) {
 			account option = 1 (checkings)
 			account option = 2 (savings)
 		*/	
-			bank b;
+			Bank b;
 			string action;
 			cout << "\n\n" <<"##"<<b.AccountType[option] << ":"<<"\n\tPlese enter the option number:"<<"\n\t1. Check balance"
 				<<"\n\t2. Withdraw from " << b.AccountType[option] 
@@ -185,7 +185,7 @@ void account(int option) {
 				<<"\n\t4. Return to Main Menu." << endl;
 
 		// Pass in Bank account type
-		    bank Account(option); 
+		    Bank Account(option); 
 
 		    int selectMenu;
 		    cin >> selectMenu;
@@ -201,7 +201,7 @@ void account(int option) {
 				    cout << Account.Deposit();
 				    break;
 			    case 4:
-				    atm(); // return to main menu
+				    ATM(); // return to main menu
 				    break;
 			    default:
 				    cout << "Would you like to continue (y/n)?\n";
@@ -209,7 +209,7 @@ void account(int option) {
 				    proceed(action);
 			
 				    if (proceed(action)) {
-					    atm(); // return to main menu
+					    ATM(); // return to main menu
 				    } 
 				    break;
 		    }
@@ -230,14 +230,14 @@ int main(){
 					    
 		cout<<"Please enter your pin number to access your account:";
 
-    	bank b;   //bank class object
+    	Bank b;   //bank class object
 
     	int pin;
     	do{
         	    cin>>pin;     
 
             	if(b.verify(pin)){
-                	atm a;
+                	ATM a;
             	}
             	else{
                 	cout<<"Your PIN is invalid, please try again:"<<"\n"<<endl;
